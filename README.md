@@ -1,2 +1,3 @@
 # github-search-tdd
-Project for second goal in BetterMe
+
+Project for second goal in BetterMe.
