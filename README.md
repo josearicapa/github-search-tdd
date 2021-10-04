@@ -1,3 +1,3 @@
-# github-search-tdd
+# **React/Jest/TDD**
 
-Project for second goal in BetterMe.
+### Proyecto meta in BetterMe - React/TDD/Jest
