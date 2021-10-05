@@ -19,7 +19,7 @@ const GithubSearchPage = () => {
     setIsSearching(true);
   };
 
-  const renderContent = (params) => {
+  const renderContent = () => 
     isSearchApplied ? (
       <table>
         <thead>
@@ -43,8 +43,8 @@ const GithubSearchPage = () => {
           Please provide a search option and click in the search button
         </Typography>
       </Box>
-    )
-  };
+    );
+  
   
   return (
     <Container>
@@ -71,7 +71,7 @@ const GithubSearchPage = () => {
         </Grid>
       </Grid>
 
-      {renderContent}
+      {renderContent()}
 
     </Container>
   )
