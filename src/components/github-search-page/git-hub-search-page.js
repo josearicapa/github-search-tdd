@@ -44,7 +44,17 @@ const GithubSearchPage = () => {
         </Grid>
       </Grid>
       {isSearchApplied ? (
-        <table />
+        <table>
+          <thead>
+            <tr>
+              <th>Repository</th>
+              <th>Start</th>
+              <th>Forks</th>
+              <th>Open Issues</th>
+              <th>Updated at</th>
+            </tr>
+          </thead>
+        </table>
       ) : (
         <Box
           display="flex"

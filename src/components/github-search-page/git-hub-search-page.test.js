@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen, fireEvent, waitFor} from '@testing-library/react'
+import {render, screen, fireEvent, waitFor, within} from '@testing-library/react'
 import GithubSearchPage from './git-hub-search-page'
 
 beforeEach(() => render(<GithubSearchPage />))
@@ -37,6 +37,20 @@ describe('when the developer does a search', () => {
       expect(screen.queryByText(/Please provide a search option and click in the search button/i)).not.toBeInTheDocument()
     );
     expect(screen.getByRole('table')).toBeDefined();    
+  });
+
+  it('The header table should contain: Repository, stars, forks, open issues and updated at', async () => {
+    fireEvent.click(screen.getByRole('button', {name: /search/i}));
+
+    const table = await screen.findByRole('table');
+    // within permite hacer consultas solo de un determinado nodo
+    const tableHeaders = within(table).getAllByRole('columnheader');
+    expect(tableHeaders).toHaveLength(5);
+    expect(tableHeaders[0]).toHaveTextContent(/repository/i);
+    expect(tableHeaders[1]).toHaveTextContent(/start/i);
+    expect(tableHeaders[2]).toHaveTextContent(/forks/i);
+    expect(tableHeaders[3]).toHaveTextContent(/open issues/i);
+    expect(tableHeaders[4]).toHaveTextContent(/updated at/i);
   });
  
 })
