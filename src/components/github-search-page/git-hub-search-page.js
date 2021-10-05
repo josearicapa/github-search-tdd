@@ -17,8 +17,35 @@ const GithubSearchPage = () => {
     await Promise.resolve();
     setIsSearchApplied(true);
     setIsSearching(true);
-  }
+  };
 
+  const renderContent = (params) => {
+    isSearchApplied ? (
+      <table>
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th>Start</th>
+            <th>Forks</th>
+            <th>Open Issues</th>
+            <th>Updated at</th>
+          </tr>
+        </thead>
+      </table>
+    ) : (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height={400}
+      >
+        <Typography>
+          Please provide a search option and click in the search button
+        </Typography>
+      </Box>
+    )
+  };
+  
   return (
     <Container>
       <Box my={4}>
@@ -43,30 +70,9 @@ const GithubSearchPage = () => {
           </Button>
         </Grid>
       </Grid>
-      {isSearchApplied ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Repository</th>
-              <th>Start</th>
-              <th>Forks</th>
-              <th>Open Issues</th>
-              <th>Updated at</th>
-            </tr>
-          </thead>
-        </table>
-      ) : (
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          height={400}
-        >
-          <Typography>
-            Please provide a search option and click in the search button
-          </Typography>
-        </Box>
-      )}
+
+      {renderContent}
+
     </Container>
   )
 }
