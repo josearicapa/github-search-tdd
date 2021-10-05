@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
 import {
   Typography,
   TextField,
@@ -6,14 +6,14 @@ import {
   Container,
   Grid,
   Box,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 const GithubSearchPage = () => {
-  const [isSearching, setIsSearching] = useState(false);
- 
+  const [isSearching, setIsSearching] = useState(false)
+
   const handleClick = async () => {
-    setIsSearching(true);        
-  };
+    setIsSearching(true)
+  }
 
   return (
     <Container>
@@ -38,9 +38,20 @@ const GithubSearchPage = () => {
             Search
           </Button>
         </Grid>
-      </Grid>      
-    </Container>
-  );
-};
+      </Grid>
 
-export default GithubSearchPage;
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height={400}
+      >
+        <Typography>
+          Please provide a search option and click in the search button
+        </Typography>
+      </Box>
+    </Container>
+  )
+}
+
+export default GithubSearchPage

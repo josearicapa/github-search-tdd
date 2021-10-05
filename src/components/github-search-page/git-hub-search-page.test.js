@@ -14,11 +14,15 @@ describe('when the GitHub Search Page is mounted', () => {
     ).toBeInTheDocument();
   });
 
-  it('should An input text with label "filter by" field in order to do the search.', () => {
+  it('should be have an input text with label "filter by" field in order to do the search.', () => {
     expect(screen.getByLabelText(/filter by/i)).toBeInTheDocument();
   });
 
-  it('should be a Search button', () => {
+  it('should be have a Search button', () => {
     expect(screen.getByRole('button', {name: /search/i})).toBeInTheDocument();
+  });
+
+  it('should be an initial message "Please provide a search option and click in the search button"', () => {
+    expect(screen.getByText(/Please provide a search option and click in the search button/i)).toBeInTheDocument();
   });
 });
