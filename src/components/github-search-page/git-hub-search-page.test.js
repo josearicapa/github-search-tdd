@@ -46,11 +46,14 @@ describe('when the developer does a search', () => {
     // within permite hacer consultas solo de un determinado nodo
     const tableHeaders = within(table).getAllByRole('columnheader');
     expect(tableHeaders).toHaveLength(5);
-    expect(tableHeaders[0]).toHaveTextContent(/repository/i);
-    expect(tableHeaders[1]).toHaveTextContent(/start/i);
-    expect(tableHeaders[2]).toHaveTextContent(/forks/i);
-    expect(tableHeaders[3]).toHaveTextContent(/open issues/i);
-    expect(tableHeaders[4]).toHaveTextContent(/updated at/i);
+
+    const [repository,stars, forks, openIssues, updatedAt] = tableHeaders;
+
+    expect(repository).toHaveTextContent(/repository/i);
+    expect(stars).toHaveTextContent(/start/i);
+    expect(forks).toHaveTextContent(/forks/i);
+    expect(openIssues).toHaveTextContent(/open issues/i);
+    expect(updatedAt).toHaveTextContent(/updated at/i);
   });
  
 })
