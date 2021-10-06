@@ -23,21 +23,24 @@ describe('when the GitHub Search Page is mounted', () => {
 });
 
 describe('when the developer does a search', () => {
+  const fireClickSearch = () => {
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+  };
+
   it('the search should be disabled until the search is done', async () => {
     expect(screen.getByRole('button', { name: /search/i })).not.toBeDisabled();
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+    fireClickSearch();
     await waitFor(() => expect(screen.getByRole('button', { name: /search/i })).toBeDisabled());
   });
 
   it('The data should be displayed as a sticky table', async () => {
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+    fireClickSearch();
     await waitFor(() => expect(screen.queryByText(/Please provide a search option and click in the search button/i)).not.toBeInTheDocument());
     expect(screen.getByRole('table')).toBeDefined();
   });
 
   it('The header table should contain: Repository, stars, forks, open issues and updated at', async () => {
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-
+    fireClickSearch();
     const table = await screen.findByRole('table');
     // within permite hacer consultas solo de un determinado nodo
     const tableHeaders = within(table).getAllByRole('columnheader');
