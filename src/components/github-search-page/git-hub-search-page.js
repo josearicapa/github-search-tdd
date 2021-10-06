@@ -1,16 +1,9 @@
-import React, {useState} from 'react'
-import {
-  Typography,
-  TextField,
-  Button,
-  Container,
-  Grid,
-  Box,
-} from '@material-ui/core'
+import React, { useState } from 'react';
+import { Typography, TextField, Button, Container, Grid, Box } from '@material-ui/core';
 
 const GithubSearchPage = () => {
-  const [isSearching, setIsSearching] = useState(false)
-  const [isSearchApplied, setIsSearchApplied] = useState(false)
+  const [isSearching, setIsSearching] = useState(false);
+  const [isSearchApplied, setIsSearchApplied] = useState(false);
 
   const handleClick = async () => {
     setIsSearching(true);
@@ -19,7 +12,7 @@ const GithubSearchPage = () => {
     setIsSearching(true);
   };
 
-  const renderContent = () => 
+  const renderContent = () =>
     isSearchApplied ? (
       <table>
         <thead>
@@ -33,48 +26,33 @@ const GithubSearchPage = () => {
         </thead>
       </table>
     ) : (
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height={400}
-      >
-        <Typography>
-          Please provide a search option and click in the search button
-        </Typography>
+      <Box display='flex' alignItems='center' justifyContent='center' height={400}>
+        <Typography>Please provide a search option and click in the search button</Typography>
       </Box>
     );
-  
-  
+
   return (
     <Container>
       <Box my={4}>
-        <Typography component="h1" variant="h3">
+        <Typography component='h1' variant='h3'>
           Github repositories list
         </Typography>
       </Box>
-      <Grid container spacing={2} justify="space-between">
+      <Grid container spacing={2} justify='space-between'>
         <Grid item md={6} xs={12}>
-          <TextField fullWidth label="Filter by" id="filterBy" />
+          <TextField fullWidth label='Filter by' id='filterBy' />
         </Grid>
 
         <Grid item md={3} xs={12}>
-          <Button
-            disabled={isSearching}
-            fullWidth
-            color="primary"
-            variant="contained"
-            onClick={handleClick}
-          >
+          <Button disabled={isSearching} fullWidth color='primary' variant='contained' onClick={handleClick}>
             Search
           </Button>
         </Grid>
       </Grid>
 
       {renderContent()}
-
     </Container>
-  )
-}
+  );
+};
 
-export default GithubSearchPage
+export default GithubSearchPage;
