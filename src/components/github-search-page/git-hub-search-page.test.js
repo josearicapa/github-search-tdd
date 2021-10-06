@@ -41,6 +41,7 @@ describe('when the developer does a search', () => {
 
   it('The header table should contain: Repository, stars, forks, open issues and updated at', async () => {
     fireClickSearch();
+
     const table = await screen.findByRole('table');
     // within permite hacer consultas solo de un determinado nodo
     const tableHeaders = within(table).getAllByRole('columnheader');
@@ -55,22 +56,24 @@ describe('when the developer does a search', () => {
     expect(updatedAt).toHaveTextContent(/updated at/i);
   });
 
-  it('Each table result should have: owner avatar image, name, stars, updated at, forks, open issues', async () => {
+  it(`Each table result should have: owner avatar image, name, stars, updated at, forks, open issues
+  It should have a link that opens in a new tab the github repository selected`, async () => {
     fireClickSearch();
 
     const table = await screen.findByRole('table');
     const withTable = within(table);
     const tableCells = withTable.getAllByRole('cell');
 
-    expect(withTable.getByRole('img', { name: /test/i })).toBeDefined();
-    expect(tableCells).toHaveLength(5);
-
     const [repository, stars, forks, openUssues, updatedAt] = tableCells;
 
+    expect(within(tableCells[0]).getByRole('img', { name: /test/i })).toBeDefined();
+    expect(tableCells).toHaveLength(5);
     expect(repository).toHaveTextContent(/Test/i);
     expect(stars).toHaveTextContent(/10/i);
     expect(forks).toHaveTextContent(/5/i);
     expect(openUssues).toHaveTextContent(/2/i);
     expect(updatedAt).toHaveTextContent(/2020-01-01/i);
+
+    expect(withTable.getByText(/test/i).closest('a')).toHaveAttribute('href', 'http://localhost:3000/test');
   });
 });

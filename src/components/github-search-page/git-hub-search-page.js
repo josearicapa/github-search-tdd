@@ -17,10 +17,7 @@ const GithubSearchPage = () => {
       <table>
         <thead>
           <tr>
-            <th>
-              <img alt='test' src='' />
-              Repository
-            </th>
+            <th>Repository</th>
             <th>Start</th>
             <th>Forks</th>
             <th>Open Issues</th>
@@ -29,7 +26,10 @@ const GithubSearchPage = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Test</td>
+            <td>
+              <img alt='test' src='' />
+              <a href='http://localhost:3000/test'>Test</a>
+            </td>
             <td>10</td>
             <td>5</td>
             <td>2</td>
