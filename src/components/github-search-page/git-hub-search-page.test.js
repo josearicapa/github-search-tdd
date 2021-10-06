@@ -57,10 +57,16 @@ describe('when the developer does a search', () => {
 
   it('Each table result should have: owner avatar image, name, stars, updated at, forks, open issues', async () => {
     fireClickSearch();
+
     const table = await screen.findByRole('table');
-    const tableCells = within(table).getAllByRole('cell');
+    const withTable = within(table);
+    const tableCells = withTable.getAllByRole('cell');
+
+    expect(withTable.getByRole('img', { name: /test/i })).toBeDefined();
     expect(tableCells).toHaveLength(5);
+
     const [repository, stars, forks, openUssues, updatedAt] = tableCells;
+
     expect(repository).toHaveTextContent(/Test/i);
     expect(stars).toHaveTextContent(/10/i);
     expect(forks).toHaveTextContent(/5/i);
