@@ -63,10 +63,9 @@ describe('when the developer does a search', () => {
     const table = await screen.findByRole('table');
     const withTable = within(table);
     const tableCells = withTable.getAllByRole('cell');
-
     const [repository, stars, forks, openUssues, updatedAt] = tableCells;
 
-    expect(within(tableCells[0]).getByRole('img', { name: /test/i })).toBeDefined();
+    expect(within(repository).getByRole('img', { name: /test/i })).toBeDefined();
     expect(tableCells).toHaveLength(5);
     expect(repository).toHaveTextContent(/Test/i);
     expect(stars).toHaveTextContent(/10/i);
