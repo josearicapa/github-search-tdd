@@ -39,7 +39,7 @@ export const Content = ({ isSearchApplied }) =>
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination rowsPerPageOptions={[5, 10, 25]} component='div' colSpan={3} count={1} rowsPerPage={10} page={0} onPageChange={() => {}} onRowsPerPageChange={() => {}} />
+      <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} onRowsPerPageChange={() => {}} />
     </>
   ) : (
     <Box display='flex' alignItems='center' justifyContent='center' height={400}>
