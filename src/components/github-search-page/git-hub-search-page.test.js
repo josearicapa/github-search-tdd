@@ -50,7 +50,7 @@ describe('when the developer does a search', () => {
     const [repository, stars, forks, openIssues, updatedAt] = tableHeaders;
 
     expect(repository).toHaveTextContent(/repository/i);
-    expect(stars).toHaveTextContent(/start/i);
+    expect(stars).toHaveTextContent(/stars/i);
     expect(forks).toHaveTextContent(/forks/i);
     expect(openIssues).toHaveTextContent(/open issues/i);
     expect(updatedAt).toHaveTextContent(/updated at/i);

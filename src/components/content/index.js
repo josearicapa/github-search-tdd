@@ -11,6 +11,8 @@ import Link from '@mui/material/Link';
 import { Typography, Box } from '@material-ui/core';
 import TablePagination from '@mui/material/TablePagination';
 
+const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
+
 export const Content = ({ isSearchApplied }) =>
   isSearchApplied ? (
     <>
@@ -18,11 +20,9 @@ export const Content = ({ isSearchApplied }) =>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Repository</TableCell>
-              <TableCell>Start</TableCell>
-              <TableCell>Forks</TableCell>
-              <TableCell>Open Issues</TableCell>
-              <TableCell>Updated at</TableCell>
+              {tableHeaders.map((name) => (
+                <TableCell key={name}>{name}</TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
