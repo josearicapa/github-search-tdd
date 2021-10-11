@@ -75,4 +75,10 @@ describe('when the developer does a search', () => {
 
     expect(withTable.getByText(/test/i).closest('a')).toHaveAttribute('href', 'http://localhost:3000/test');
   });
+
+  it('must display the total results number of the search and the current number of results', async () => {
+    fireClickSearch();
+    await screen.findByRole('table');
+    expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument();
+  });
 });
