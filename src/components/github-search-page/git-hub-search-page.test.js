@@ -40,6 +40,10 @@ afterAll(() => server.close())
 
 beforeEach(() => render(<GithubSearchPage />));
 
+const fireClickSearch = () => {
+  fireEvent.click(screen.getByRole('button', { name: /search/i }));
+};
+
 describe('when the GitHub Search Page is mounted', () => {
   it('should must display the title', () => {
     expect(screen.getByRole('heading', { name: /github repositories list/i })).toBeInTheDocument();
@@ -59,10 +63,7 @@ describe('when the GitHub Search Page is mounted', () => {
 });
 
 describe('when the developer does a search', () => {
-  const fireClickSearch = () => {
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-  };
-
+ 
   it('the search should be disabled until the search is done', async () => {
     expect(screen.getByRole('button', { name: /search/i })).not.toBeDisabled();
     fireClickSearch();
@@ -146,5 +147,29 @@ describe('when the developer does a search', () => {
 });
 
 describe('when the developer does a search without results', () => {
-  it.todo('must show a empty state message');
+  it('must show a empty state message', async () => {
+    // set the mock server retorno no items
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(200),
+          ctx.json({ 
+            total_count: 0,
+            incomplete_results: false,
+            items: []
+          })
+        )
+      ),
+    );
+    // clic search
+    fireClickSearch();
+
+    //expect no table
+    await waitFor(() => {
+      expect(screen.getByText(/You search has no results/i)).toBeInTheDocument();
+    });
+
+    //expect messsages no result
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  })
 });

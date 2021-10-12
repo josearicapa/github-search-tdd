@@ -13,53 +13,65 @@ import TablePagination from '@mui/material/TablePagination';
 
 const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
 
-export const Content = ({ isSearchApplied, repoList}) =>
-  isSearchApplied ? (
-    <>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {tableHeaders.map((name) => (
-                <TableCell key={name}>{name}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              repoList.map((
-                {name, 
-                  id,
-                  stargazers_count: stargazersCount,
-                  forks_count: forksCount,
-                  open_issues: openIssues,
-                  updated_at: updatedAt,
-                  html_url: htmlUrl,
-                  owner: {avatar_url:avatarUrl}
-                }) => (
-                <TableRow key={id}>
-                  <TableCell>
-                    <Avatar alt={name} src={avatarUrl}/>
-                    <Link href={htmlUrl}>{name}</Link>
-                  </TableCell>
-                  <TableCell>{stargazersCount}</TableCell>
-                  <TableCell>{forksCount}</TableCell>
-                  <TableCell>{openIssues}</TableCell>
-                  <TableCell>{updatedAt}</TableCell>
-                </TableRow>
-              ))
-            }
+export const Content = ({ isSearchApplied, repoList}) =>{
+  if (isSearchApplied && !!repoList.length) {
+    return( 
+      <>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {tableHeaders.map((name) => (
+                  <TableCell key={name}>{name}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                repoList.map((
+                  {name, 
+                    id,
+                    stargazers_count: stargazersCount,
+                    forks_count: forksCount,
+                    open_issues: openIssues,
+                    updated_at: updatedAt,
+                    html_url: htmlUrl,
+                    owner: {avatar_url:avatarUrl}
+                  }) => (
+                  <TableRow key={id}>
+                    <TableCell>
+                      <Avatar alt={name} src={avatarUrl}/>
+                      <Link href={htmlUrl}>{name}</Link>
+                    </TableCell>
+                    <TableCell>{stargazersCount}</TableCell>
+                    <TableCell>{forksCount}</TableCell>
+                    <TableCell>{openIssues}</TableCell>
+                    <TableCell>{updatedAt}</TableCell>
+                  </TableRow>
+                ))
+              }
             
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} onRowsPerPageChange={() => {}} />
-    </>
-  ) : (
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} onRowsPerPageChange={() => {}} />
+      </>
+    );
+  }
+
+  if (isSearchApplied && !repoList.length) {
+    return (
+      <Box display='flex' alignItems='center' justifyContent='center' height={400}>
+        <Typography>You search has no results</Typography>
+      </Box>
+    );
+  }
+      
+  return (
     <Box display='flex' alignItems='center' justifyContent='center' height={400}>
       <Typography>Please provide a search option and click in the search button</Typography>
-    </Box>
-  );
+    </Box>);
+};
 
 export default Content;
 
