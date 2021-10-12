@@ -3,24 +3,8 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 import GithubSearchPage from './git-hub-search-page';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-
-const makeFakeResponse = ({totalCount = 0}) => ({
-  total_count: totalCount,  
-  items: []
-});
-
-const makeFakeRepo = () => ({
-  id: '306157569',
-  name: "django-react-guide",
-  owner: {
-    avatar_url: "https://avatars.githubusercontent.com/u/12790824?v=4"    
-  },
-  html_url: "https://github.com/MattSegal",
-  updated_at: "2021-08-25",
-  stargazers_count: 14,
-  forks_count: 10,
-  open_issues: 0,
-});
+import { makeFakeResponse,makeFakeRepo } from '../../__fixtures__/repos';
+import {OK_STATUS} from '../../constants'
 
 const fakeRepo = makeFakeRepo();
 
@@ -30,7 +14,7 @@ fakeResponse.items = [makeFakeRepo()];
 const server = setupServer(
   rest.get('/search/repositories', (req, res, ctx) => {    
     return res(
-      ctx.status(200),
+      ctx.status(OK_STATUS),
       ctx.json(fakeResponse)
     );
   }),
@@ -156,7 +140,7 @@ describe('when the developer does a search without results', () => {
     server.use(
       rest.get('/search/repositories', (req, res, ctx) =>
         res(
-          ctx.status(200),
+          ctx.status(OK_STATUS),
           ctx.json(makeFakeResponse({}))
         )
       ),
