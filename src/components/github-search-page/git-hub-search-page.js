@@ -1,6 +1,8 @@
 import React, { useState,useRef,useEffect } from 'react';
 import { Typography, TextField, Button, Container, Grid, Box } from '@material-ui/core';
 import { Content } from '../../components/content/';
+import {getRepos} from '../../services'
+
 
 const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false);
@@ -16,8 +18,9 @@ const GithubSearchPage = () => {
 
   const handleClick = async () => {
     setIsSearching(true);
-    const response = await fetch('/search/repositories?q=react+language:python&page=2&per_page=50');    
+    const response = await getRepos();
     const data = await response.json();
+
     if (_isMounted.current) {
       setReposList(data.items);
       setIsSearchApplied(true);
