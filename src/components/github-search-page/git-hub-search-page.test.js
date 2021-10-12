@@ -4,7 +4,12 @@ import GithubSearchPage from './git-hub-search-page';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-const fakeRepo = {
+const makeFakeResponse = ({totalCount = 0}) => ({
+  total_count: totalCount,  
+  items: []
+});
+
+const makeFakeRepo = () => ({
   id: '306157569',
   name: "django-react-guide",
   owner: {
@@ -15,19 +20,18 @@ const fakeRepo = {
   stargazers_count: 14,
   forks_count: 10,
   open_issues: 0,
-};
+});
+
+const fakeRepo = makeFakeRepo();
+
+const fakeResponse = makeFakeResponse({totalCount: 1});
+fakeResponse.items = [makeFakeRepo()];
 
 const server = setupServer(
-  rest.get('/search/repositories', (req, res, ctx) => {
-    // Respond with a mocked user token that gets persisted
-    // in the `sessionStorage` by the `Login` component.
+  rest.get('/search/repositories', (req, res, ctx) => {    
     return res(
       ctx.status(200),
-      ctx.json({ 
-        total_count: 18078,
-        incomplete_results: false,
-        items: [fakeRepo]
-      })
+      ctx.json(fakeResponse)
     );
   }),
 );
@@ -153,11 +157,7 @@ describe('when the developer does a search without results', () => {
       rest.get('/search/repositories', (req, res, ctx) =>
         res(
           ctx.status(200),
-          ctx.json({ 
-            total_count: 0,
-            incomplete_results: false,
-            items: []
-          })
+          ctx.json(makeFakeResponse({}))
         )
       ),
     );
