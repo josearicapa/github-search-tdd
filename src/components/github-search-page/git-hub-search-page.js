@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import { Typography, TextField, Button, Container, Grid, Box } from '@material-ui/core';
 import { Content } from '../../components/content/';
 
 const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchApplied, setIsSearchApplied] = useState(false);
+  const [repoList, setReposList] = useState([]);
+  let _isMounted = useRef(true);
+
+  useEffect(() => {    
+    return () => {
+      _isMounted.current = false;
+    }
+  }, [])
 
   const handleClick = async () => {
     setIsSearching(true);
-    await Promise.resolve();
-    setIsSearchApplied(true);
-    setIsSearching(true);
+    const response = await fetch('/search/repositories?q=react+language:python&page=2&per_page=50');    
+    const data = await response.json();
+    if (_isMounted.current) {
+      setReposList(data.items);
+      setIsSearchApplied(true);
+      setIsSearching(true);  
+    }    
   };
 
   return (
@@ -33,7 +45,7 @@ const GithubSearchPage = () => {
       </Grid>
 
       <Box my={4}>
-        <Content isSearchApplied={isSearchApplied} />
+        <Content isSearchApplied={isSearchApplied} repoList={repoList} />
       </Box>
     </Container>
   );

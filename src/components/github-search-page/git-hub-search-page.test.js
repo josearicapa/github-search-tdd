@@ -1,6 +1,42 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import GithubSearchPage from './git-hub-search-page';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+
+const fakeRepo = {
+  id: '306157569',
+  name: "django-react-guide",
+  owner: {
+    avatar_url: "https://avatars.githubusercontent.com/u/12790824?v=4"    
+  },
+  html_url: "https://github.com/MattSegal",
+  updated_at: "2021-08-25",
+  stargazers_count: 14,
+  forks_count: 10,
+  open_issues: 0,
+};
+
+const server = setupServer(
+  rest.get('/search/repositories', (req, res, ctx) => {
+    // Respond with a mocked user token that gets persisted
+    // in the `sessionStorage` by the `Login` component.
+    return res(
+      ctx.status(200),
+      ctx.json({ 
+        total_count: 18078,
+        incomplete_results: false,
+        items: [fakeRepo]
+      })
+    );
+  }),
+);
+
+beforeAll(() => server.listen())
+
+afterEach(() => server.resetHandlers())
+
+afterAll(() => server.close())
 
 beforeEach(() => render(<GithubSearchPage />));
 
@@ -63,17 +99,19 @@ describe('when the developer does a search', () => {
     const table = await screen.findByRole('table');
     const withTable = within(table);
     const tableCells = withTable.getAllByRole('cell');
-    const [repository, stars, forks, openUssues, updatedAt] = tableCells;
-
-    expect(within(repository).getByRole('img', { name: /test/i })).toBeDefined();
+    const [repository, stars, forks, openIssues, updatedAt] = tableCells;
+    const avatarImg  = within(repository).getByRole('img', { name: fakeRepo.name });
+    expect(avatarImg).toBeInTheDocument();
     expect(tableCells).toHaveLength(5);
-    expect(repository).toHaveTextContent(/Test/i);
-    expect(stars).toHaveTextContent(/10/i);
-    expect(forks).toHaveTextContent(/5/i);
-    expect(openUssues).toHaveTextContent(/2/i);
-    expect(updatedAt).toHaveTextContent(/2020-01-01/i);
+    expect(repository).toHaveTextContent(fakeRepo.name);
+    expect(stars).toHaveTextContent(fakeRepo.stargazers_count);
+    expect(forks).toHaveTextContent(fakeRepo.forks_count);
+    expect(openIssues).toHaveTextContent(fakeRepo.open_issues);
+    expect(updatedAt).toHaveTextContent(fakeRepo.updated_at);
 
-    expect(withTable.getByText(/test/i).closest('a')).toHaveAttribute('href', 'http://localhost:3000/test');
+    expect(withTable.getByText(fakeRepo.name).closest('a')).toHaveAttribute('href', fakeRepo.html_url);
+
+    expect(avatarImg).toHaveAttribute("src", fakeRepo.owner.avatar_url.url);
   });
 
   it('must display the total results number of the search and the current number of results', async () => {
@@ -105,4 +143,8 @@ describe('when the developer does a search', () => {
     expect(screen.getByRole('button', { name: /next page/i })).toBeInTheDocument();
     expect(previousPageBtn).toBeDisabled();
   });
+});
+
+describe('when the developer does a search without results', () => {
+  it.todo('must show a empty state message');
 });

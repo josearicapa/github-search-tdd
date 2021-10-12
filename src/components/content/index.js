@@ -13,7 +13,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
 
-export const Content = ({ isSearchApplied }) =>
+export const Content = ({ isSearchApplied, repoList}) =>
   isSearchApplied ? (
     <>
       <TableContainer>
@@ -26,16 +26,30 @@ export const Content = ({ isSearchApplied }) =>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <Avatar alt='test' src='/logo192.png' />
-                <Link href='http://localhost:3000/test'>Test</Link>
-              </TableCell>
-              <TableCell>10</TableCell>
-              <TableCell>5</TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>2020-01-01</TableCell>
-            </TableRow>
+            {
+              repoList.map((
+                {name, 
+                  id,
+                  stargazers_count: stargazersCount,
+                  forks_count: forksCount,
+                  open_issues: openIssues,
+                  updated_at: updatedAt,
+                  html_url: htmlUrl,
+                  owner: {avatar_url:avatarUrl}
+                }) => (
+                <TableRow key={id}>
+                  <TableCell>
+                    <Avatar alt={name} src={avatarUrl}/>
+                    <Link href={htmlUrl}>{name}</Link>
+                  </TableCell>
+                  <TableCell>{stargazersCount}</TableCell>
+                  <TableCell>{forksCount}</TableCell>
+                  <TableCell>{openIssues}</TableCell>
+                  <TableCell>{updatedAt}</TableCell>
+                </TableRow>
+              ))
+            }
+            
           </TableBody>
         </Table>
       </TableContainer>
@@ -51,4 +65,5 @@ export default Content;
 
 Content.prototypes = {
   isSearchApplied: PropTypes.bool.isRequired,
+  repoList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
