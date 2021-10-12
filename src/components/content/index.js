@@ -13,7 +13,13 @@ import TablePagination from '@mui/material/TablePagination';
 
 const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
 
-export const Content = ({ isSearchApplied, repoList}) =>{
+export const Content = ({ isSearchApplied, repoList}) => {  
+  const renderWithBox = (msg) => 
+    <Box display='flex' alignItems='center' justifyContent='center' height={400}>
+      <Typography>{msg}</Typography>
+    </Box>;
+  
+
   if (isSearchApplied && !!repoList.length) {
     return( 
       <>
@@ -60,17 +66,10 @@ export const Content = ({ isSearchApplied, repoList}) =>{
   }
 
   if (isSearchApplied && !repoList.length) {
-    return (
-      <Box display='flex' alignItems='center' justifyContent='center' height={400}>
-        <Typography>You search has no results</Typography>
-      </Box>
-    );
+    return renderWithBox('You search has no results');    
   }
       
-  return (
-    <Box display='flex' alignItems='center' justifyContent='center' height={400}>
-      <Typography>Please provide a search option and click in the search button</Typography>
-    </Box>);
+  return renderWithBox('Please provide a search option and click in the search button');
 };
 
 export default Content;
