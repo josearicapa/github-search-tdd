@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect } from 'react';
 import { Typography, TextField, Button, Container, Grid, Box } from '@material-ui/core';
-import { Content } from '../../components/content/';
+import { Content } from '../content/content.js';
 import {getRepos} from '../../services'
 
 
