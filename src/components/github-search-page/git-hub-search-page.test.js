@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 import GithubSearchPage from './git-hub-search-page';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { makeFakeResponse,makeFakeRepo, getReposListBy } from '../../__fixtures__/repos';
+import { makeFakeResponse,makeFakeRepo, getReposListBy, getReposPerPage } from '../../__fixtures__/repos';
 import {OK_STATUS} from '../../constants'
 
 const fakeRepo = makeFakeRepo();
@@ -165,7 +165,7 @@ describe('when the developer types on filter by and does a search', () => {
     const repoName = 'laravel';
 
     const expectRepo = getReposListBy({name: repoName})[0];
-
+    
     server.use(
       rest.get('/search/repositories', (req, res, ctx) =>
         res(
@@ -178,10 +178,9 @@ describe('when the developer types on filter by and does a search', () => {
         )
       ),
     );
-        
-    fireEvent.change(screen.getByLabelText(/filter by/i), {target: {value: 'laravel'}});    
+    const fieldFilter = screen.getByLabelText(/filter by/i);   
+    fireEvent.change(fieldFilter, {target: {value: 'laravel'}});    
     fireClickSearch();
-   
     const table = await screen.findByRole('table');
     expect(table).toBeInTheDocument();
     // No es necesario agregar los expect de celdas porque ya estan cubiertas en otras pruebas.

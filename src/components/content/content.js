@@ -13,12 +13,14 @@ import TablePagination from '@mui/material/TablePagination';
 
 const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
 
-export const Content = ({ isSearchApplied, repoList}) => {  
+export const Content = ({ isSearchApplied, repoList, rowPerPage, setRowsPerPage}) => {
+  
+  const handleChangeRowsPerPage = ({target:{value}}) => setRowsPerPage(value);
+
   const renderWithBox = (msg) => 
     <Box display='flex' alignItems='center' justifyContent='center' height={400}>
       <Typography>{msg}</Typography>
     </Box>;
-  
 
   if (isSearchApplied && !!repoList.length) {
     return( 
@@ -60,7 +62,8 @@ export const Content = ({ isSearchApplied, repoList}) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} onRowsPerPageChange={() => {}} />
+        <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} 
+          onRowsPerPageChange={handleChangeRowsPerPage} />
       </>
     );
   }
@@ -76,5 +79,7 @@ export default Content;
 
 Content.prototypes = {
   isSearchApplied: PropTypes.bool.isRequired,
-  repoList: PropTypes.arrayOf(PropTypes.object).isRequired
+  repoList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rowPerPage: PropTypes.number.isRequired,
+  setRowsPerPage: PropTypes.func.isRequired
 };
