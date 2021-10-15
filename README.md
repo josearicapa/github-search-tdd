@@ -42,3 +42,5 @@ Su principio fundamental es:
 
 > Cuanto más se parezcan tus pruebas a la forma en que se utiliza tu software, más confianza te darán.
 
+### Material UI 
+MUI proporciona una biblioteca robusta, personalizable y accesible de componentes básicos y avanzados, lo que le permite crear su propio sistema de diseño y desarrollar aplicaciones React más rápido. Los componentes MUI funcionan de forma aislada. Son autosuficientes y solo inyectarán los estilos que necesitan mostrar. 
