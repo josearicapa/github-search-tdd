@@ -1,13 +1,14 @@
 import React, { useState,useRef,useEffect } from 'react';
 import { Typography, TextField, Button, Container, Grid, Box } from '@material-ui/core';
 import { Content } from '../content/content.js';
-import {getRepos} from '../../services'
+import {getRepos} from '../../services/services.js'
 
 
 const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchApplied, setIsSearchApplied] = useState(false);
   const [repoList, setReposList] = useState([]);
+  const [searchBy, setSearchBy] = useState();
   let _isMounted = useRef(true);
 
   useEffect(() => {    
@@ -18,7 +19,7 @@ const GithubSearchPage = () => {
 
   const handleClick = async () => {
     setIsSearching(true);
-    const response = await getRepos();
+    const response = await getRepos({q: searchBy});
     const data = await response.json();
 
     if (_isMounted.current) {
@@ -26,6 +27,10 @@ const GithubSearchPage = () => {
       setIsSearchApplied(true);
       setIsSearching(true);  
     }    
+  };
+
+  const handleChange = ({target:{value}}) => {
+    setSearchBy(value);
   };
 
   return (
@@ -37,7 +42,7 @@ const GithubSearchPage = () => {
       </Box>
       <Grid container spacing={2} justify='space-between'>
         <Grid item md={6} xs={12}>
-          <TextField fullWidth label='Filter by' id='filterBy' />
+          <TextField value={searchBy} onChange={handleChange} fullWidth label='Filter by' id='filterBy' />
         </Grid>
 
         <Grid item md={3} xs={12}>

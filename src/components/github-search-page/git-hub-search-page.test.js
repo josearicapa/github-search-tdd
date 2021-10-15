@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 import GithubSearchPage from './git-hub-search-page';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { makeFakeResponse,makeFakeRepo } from '../../__fixtures__/repos';
+import { makeFakeResponse,makeFakeRepo, getReposListBy } from '../../__fixtures__/repos';
 import {OK_STATUS} from '../../constants'
 
 const fakeRepo = makeFakeRepo();
@@ -156,4 +156,38 @@ describe('when the developer does a search without results', () => {
     //expect messsages no result
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
   })
+});
+
+describe('when the developer types on filter by and does a search', () => {
+  it('must display the releated repos', async () => {
+    //La respuesta va hacer todo lo que devuelva getRepos
+    const fakeResponse = makeFakeResponse();
+    const repoName = 'laravel';
+
+    const expectRepo = getReposListBy({name: repoName})[0];
+
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(OK_STATUS),
+          ctx.json(
+            {...fakeResponse, 
+              items: getReposListBy({name: req.url.searchParams.get('q')})
+            }
+          )
+        )
+      ),
+    );
+        
+    fireEvent.change(screen.getByLabelText(/filter by/i), {target: {value: 'laravel'}});    
+    fireClickSearch();
+   
+    const table = await screen.findByRole('table');
+    expect(table).toBeInTheDocument();
+    // No es necesario agregar los expect de celdas porque ya estan cubiertas en otras pruebas.
+    const withTable = within(table);
+    const tableCells = withTable.getAllByRole('cell');
+    const [repository] = tableCells;   
+    expect(repository).toHaveTextContent(expectRepo.name);
+  });
 });
