@@ -3,7 +3,8 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 import GithubSearchPage from './git-hub-search-page';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { makeFakeResponse,makeFakeRepo, getReposListBy, getReposPerPage } from '../../__fixtures__/repos';
+import { makeFakeResponse,makeFakeRepo, getReposListBy } from '../../__fixtures__/repos';
+import { handlerPaginated } from '../../__fixtures__/handlers';
 import {OK_STATUS} from '../../constants'
 
 const fakeRepo = makeFakeRepo();
@@ -20,18 +21,7 @@ const server = setupServer(
   }),
 );
 
-const handlerPaginated = (req, res, ctx) =>
-  res(
-    ctx.status(OK_STATUS),
-    ctx.json(
-      {...makeFakeResponse(), 
-        items: getReposPerPage({
-          perPage: Number(req.url.searchParams.get('per_page')),
-          currentPage: req.url.searchParams.get('page')
-        })
-      }
-    )
-  );
+
 
 beforeAll(() => server.listen())
 
