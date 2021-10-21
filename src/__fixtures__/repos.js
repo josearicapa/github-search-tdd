@@ -31,7 +31,8 @@ export const getReposListBy = ({name}) => {
 };
 
 export const getReposPerPage = ({currentPage, perPage}) => {  
-  return perPage === 30 ? repos30Pagined[currentPage]
+  return perPage === 30 
+    ? repos30Pagined[currentPage]
     : repos50Pagined[currentPage];
 }
 

@@ -62,8 +62,15 @@ export const Content = ({ isSearchApplied, repoList, rowPerPage, setRowsPerPage}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination rowsPerPageOptions={[30, 50, 100]} component='div' colSpan={3} count={1} rowsPerPage={30} page={0} onPageChange={() => {}} 
-          onRowsPerPageChange={handleChangeRowsPerPage} />
+        <TablePagination rowsPerPageOptions={[30, 50, 100]} 
+          component='div' 
+          colSpan={3} 
+          count={1} 
+          rowsPerPage={rowPerPage} 
+          page={0} 
+          onPageChange={() => {}} 
+          onRowsPerPageChange={handleChangeRowsPerPage} 
+        />
       </>
     );
   }

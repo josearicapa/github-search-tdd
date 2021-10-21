@@ -21,13 +21,12 @@ const GithubSearchPage = () => {
         rowPerPage
       }
     );
-     
+    
     const data = await response.json();
-    if(_isMounted.current){
-      setReposList(data.items);
-      setIsSearchApplied(true);
-      setIsSearching(true);    
-    }    
+    data.items && setReposList(data.items);
+
+    setIsSearchApplied(true);
+    setIsSearching(false);        
         
   },[rowPerPage]);
   
