@@ -3,6 +3,7 @@ import { Typography, TextField, Button, Container, Grid, Box } from '@material-u
 import { Content } from '../content/content.js';
 import {getRepos} from '../../services/services.js'
 
+const ROWS_PER_PAGE_DEFAULT = 30;
 
 const GithubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false);
@@ -10,7 +11,7 @@ const GithubSearchPage = () => {
   const [repoList, setReposList] = useState([]);
   const searchByInput = useRef(null);
   let _isMounted = useRef(true);
-  const [rowPerPage, setRowsPerPage] = useState(30);
+  const [rowPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE_DEFAULT);
 
   
   const handleSearch = useCallback(async () => {
@@ -23,7 +24,7 @@ const GithubSearchPage = () => {
     );
     
     const data = await response.json();
-    data.items && setReposList(data.items);
+    data.items ? setReposList(data.items) : setReposList([]);
 
     setIsSearchApplied(true);
     setIsSearching(false);        
@@ -56,7 +57,12 @@ const GithubSearchPage = () => {
       </Grid>
 
       <Box my={4}>
-        <Content isSearchApplied={isSearchApplied} repoList={repoList} rowPerPage={rowPerPage} setRowsPerPage={setRowsPerPage} />
+        <Content 
+          isSearchApplied={isSearchApplied} 
+          repoList={repoList} 
+          rowPerPage={rowPerPage} 
+          setRowsPerPage={setRowsPerPage} 
+        />
       </Box>
     </Container>
   );
