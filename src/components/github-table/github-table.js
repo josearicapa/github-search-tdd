@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 const tableHeaders = ['Repository', 'Stars', 'Forks', 'Open Issues', 'Updated at'];
 
 
-export const GitHubTable = ({repoList = [{}]} ) => (  
+export const GitHubTable = ({repoList} ) => (  
   <TableContainer>
     <Table>
       <TableHead>

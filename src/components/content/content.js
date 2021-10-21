@@ -4,7 +4,7 @@ import { Typography, Box } from '@material-ui/core';
 import TablePagination from '@mui/material/TablePagination';
 import {GitHubTable} from '../github-table/github-table';
 
-export const Content = ({ isSearchApplied, repoList = [], rowPerPage, setRowsPerPage}) => {
+export const Content = ({ isSearchApplied, repoList, rowPerPage, setRowsPerPage}) => {
   
   const handleChangeRowsPerPage = ({target:{value}}) => setRowsPerPage(value);
 
