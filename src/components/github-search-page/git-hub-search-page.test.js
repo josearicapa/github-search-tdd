@@ -20,6 +20,19 @@ const server = setupServer(
   }),
 );
 
+const handlerPaginated = (req, res, ctx) =>
+  res(
+    ctx.status(OK_STATUS),
+    ctx.json(
+      {...makeFakeResponse(), 
+        items: getReposPerPage({
+          perPage: Number(req.url.searchParams.get('per_page')),
+          currentPage: req.url.searchParams.get('page')
+        })
+      }
+    )
+  );
+
 beforeAll(() => server.listen())
 
 afterEach(() => server.resetHandlers())
@@ -195,21 +208,7 @@ describe('when the developer types on filter by and does a search', () => {
 
 describe('when the developer does a search and selects 50 rows per page', () => {
   it('must fetch a new search and display 50 rows results on the table', async () => {
-    server.use(
-      rest.get('/search/repositories', (req, res, ctx) =>
-        res(
-          ctx.status(OK_STATUS),
-          ctx.json(
-            {...makeFakeResponse(), 
-              items: getReposPerPage({
-                perPage: Number(req.url.searchParams.get('per_page')),
-                currentPage: req.url.searchParams.get('page')
-              })
-            }
-          )
-        )
-      ),
-    );
+    server.use(rest.get('/search/repositories', handlerPaginated));
 
     fireClickSearch();
 
